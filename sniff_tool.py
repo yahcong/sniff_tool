@@ -553,6 +553,7 @@ def other_parser(src_ip_port, dst_ip_port, full_load, ack, seq, pkt, verbose):
     '''
     Pull out pertinent info from the parsed HTTP packet data
     '''
+    servername = None
     user_passwd = None
     http_url_req = None
     method = None
