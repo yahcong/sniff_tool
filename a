@@ -1,0 +1,1123 @@
+[*] Using interface: lo
+vnfm_port:2001
+nfvo_port:9102
+vnf_port:8000
+openstack_port:5000
+sniff:
+***********receive request *****************
+vnfm:
+verbose:False
+method: GET
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42934
+dst_port: 2001
+path: /v1/web/catalog/packages/89b084d6-66fe-4070-aab7-9b3334937fb1/files/vnfd/EB_vnfd_vNewC10_69_76.yaml
+body:
+
+headers:
+{'host': '10.1.13.105:2001', 'accept': '*/*', 'user-agent': 'curl/7.29.0'}
+ack: 4015754564
+***********receive request *****************
+nfvo:
+verbose:False
+method: GET
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 48790
+dst_port: 9102
+path: /v1/catalog/vnfpkgs/89b084d6-66fe-4070-aab7-9b3334937fb1/EB_vnfd_vNewC10_69_76.yaml?VNFMID=222&NFVOID=1
+body:
+
+headers:
+{'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+ack: 1910741726
+***********response data*****************
+nfvo:
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 9102
+dst_port: 48790
+body:
+HTTP/1.0 200 OK
+headers:
+{'date': 'Wed, 25 Apr 2018 05:43:13 GMT', 'content-length': '11309', 'content-type': 'application/octet-stream', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+ack: 3616971166
+raw data:
+
+tosca_definitions_version: tosca_simple_profile_for_nfv_1_0_0
+
+description: EB_vNewC10
+
+metadata:
+  id: 1111-1111-1111-1111
+  vendor: EB
+  version: v2.10
+imports:
+  #- tosca_base_type_definition.yaml
+
+name: vNewC10
+
+
+topology_template:
+  inputs:
+    VNF_INST_NAME:
+      type: string
+      description: 
+      valid_values:
+      default: vLIXIAOLI
+
+    VNF_PROTOCOL:
+      type: string
+      description:
+      valid_values: ['http','https']
+      default: http
+    VNF_PORT:
+      type: string
+      description: vnfm port
+      valid_values:
+      default: 8000
+    VNF_USER:
+      type: string
+      description:
+      valid_values:
+      default: wanglihe
+    VNF_PASSWD:
+      type: string
+      description:
+      valid_values:
+      default: 82325588
+    VNF_VERIFY:
+      type: string
+      description:
+      valid_values: [True,False]
+      default: False
+
+    MANO_IP:
+      type: string
+      description: vnfm ip
+      valid_values:
+      default: 10.1.14.121
+    MANO_PORT:
+      type: string
+      description: vnfm port
+      valid_values:
+      default: 2019
+    MANO_USER:
+      type: string
+      description: vnfm user
+      valid_values:
+      default: lixiaoli
+    MANO_PASSWD:
+      type: string
+      description: vnfm user password
+      valid_values:
+      default: 82325588
+
+    MSMANAGER_VIP_V6:
+      type: string
+      description: 
+      valid_values:
+      default: 2001:db4::150
+
+
+  node_templates:
+
+    Internal_network:
+      type: tosca.nodes.nfv.VL
+      properties:
+        vendor: ACME Networks
+        network_name: Vlan114
+        subnet_name: 
+
+    OM_network:
+      type: tosca.nodes.nfv.VL
+      properties:
+        vendor: ACME Networks
+        network_name: Vlan116
+        subnet_name: 
+
+
+    network_1:
+      type: tosca.nodes.nfv.NETWORK
+      properties:
+        network_name: Vlan_110
+        admin_state_up: True
+        dns_domain:     #A valid DNS domain.
+        MTU:    # Minimum value is 68 for IPv4, and 1280 for IPv6.| 承载管理的网络最大为1500B，承载业务的网络最大为3946B
+        network_type: vlan #flat, vlan, vxlan
+        physical_network: default   # 虚拟层提供的physnet名称，默认为default]，虚拟网络类型为vlan时需指定，虚拟网络类型为vxlan不能指定
+        segmentation_id:     #flat网络不指定
+        router_external:     # 是否为外部网络  [true|false]
+        vlan_transparent:    # True|False 
+        QOS_node: Qos1
+
+
+    network_1_subnet_1:
+      type: tosca.nodes.nfv.SUBNET
+      properties:
+        subnet_name: Vlan_110_subnet_v4
+        logic_network_name: network_1
+        ip_version: 4   #[4|6]
+        ipv6_ra_mode:  #[slaac] if v6
+        ipv6_address_mode:   # slaac if v6
+        cidr: 192.168.199.0/24 #cidr格式地址 "192.168.199.0/24"
+        start: 192.168.199.10           #allocation_pools
+        end: 192.168.199.200
+        gateway_ip: 192.168.199.2         # 由网络指定
+        enable_dhcp: false                # 
+        dns_nameservers: 10.1.1.4         # 
+        host_routes:                      #Additional routes for the subnet. A list of dictionaries with destination and nexthop parameters.
+
+
+
+    network_1_subnet_2:
+      type: tosca.nodes.nfv.SUBNET
+      properties:
+        subnet_name: vlan_110_subnet_v6  # 该子网属于哪一个网络（网络name在vim上面是唯一的）
+        logic_network_name: network_1  #
+        ip_version: 6   #[4|6]
+        ipv6_ra_mode: slaac    #[slaac] if v6
+        ipv6_address_mode: slaac   # slaac if v6
+        cidr: 2001:db9::/64 #cidr格式地址 "192.168.199.0/24"
+        start: 2001:db9::4           #allocation_pools
+        end: 2001:db9::2000
+        gateway_ip: 2001:db9::2         # 由网络指定
+        enable_dhcp: True                #v6的dhcp为True
+        dns_nameservers: 2001:db9::3         # 
+        host_routes:                      #Additional routes for the subnet. A list of dictionaries with destination and nexthop parameters.
+
+
+
+
+
+
+
+    #lixiaoli-ScaleVdu_PORT1:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_addr: 10.1.17.99
+    #    ip_version: v4
+    #    vl: Internal_network 
+    #    node: lixiaoli-ScaleVdu
+        
+
+    #lixiaoli-NewC10-v6_PORT1:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #     ip_addr: 10.1.13.12
+    #    ip_version: v4
+    #     vl: OM_network 
+    #    node: lixiaoli-NewC10-v6
+
+    #lixiaoli-ScaleVdu_PORT2:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_version: v6
+    #    vl: Internal_network
+    #    ip_addr: 2001:db4::1000
+    #    node: lixiaoli-ScaleVdu
+
+
+    #lixiaoli-NewC10-v6_PORT2:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_version: v6
+    #    vl: Internal_network
+    #    ip_addr: { get_input: MSMANAGER_VIP_V6 }
+    #    node: lixiaoli-NewC10-v6
+
+
+
+
+    lixiaoli-NewC10:
+      type: tosca.nodes.nfv.VDU
+      properties:
+        order: 1
+        min_instances: 1
+        max_instances: 6
+        default_instances: 1
+      capabilities:
+        host:
+          properties:
+            num_cpus: 4
+            disk_size: 40 GB
+            mem_size:  4GB
+            cpu_policy:          # cpu绑定 dedicated
+            realtime_cpu_num: 0  # 网元实时性
+            mem_page_sizel:       # 巨页参数 any,larger,1G
+            numa_nodes:    # 从几个NUMA节点上分配资源,这个参数格式不能乱写，会影响设置flavor属性（1，2，3，4 int型,非0）
+            vif_mutliqueue_enabled: disable   # 多队列vNIC( 
+
+
+        volume:
+          properties:
+            enable: False
+            size: 20 GB
+            type: multiattach
+            multiattach: True
+
+      artifacts:
+        VM_image:
+          type: tosca.artifacts.Deployment.Image.VM
+          file: redhat6_standered_base_2
+          #file: C10-VNF-20171226 
+          #file:  base_image_test
+          #file:  c10-vnf-0330
+          #file:  redhat_standered_base_2
+        location:
+          # 以下三项选填
+          zone:
+          aggregate:
+          host:
+          server_group: 
+
+        boot:
+          # 必填
+          config_drive: True
+
+      interfaces:
+        injections: 
+          - destination: /tmp/lixiaoli1
+            content: |
+              11111111111
+              222222222222
+          - destination: /tmp/lixiaoli2
+            content: |
+              3333333333333333333
+              4444444444444444444
+        Standard:
+          create:
+            implementation: |
+              #!/bin/bash
+              echo -e "[vm_base_para]" > /etc/vnfm.config
+              echo -e "MANO_IP = $MANO_IP" >> /etc/vnfm.config
+              echo -e "MANO_PORT = $MANO_PORT" >> /etc/vnfm.config
+              echo -e "MANO_USER = $MANO_USER" >> /etc/vnfm.config
+              echo -e "MANO_PASSWD = $MANO_PASSWD" >> /etc/vnfm.config
+              echo -e "QQQQQQQQQQQQQQQQQQQ" >> /etc/vnfm.config
+              echo -e "ZZZZZZZZZZZZZZZZZZZZ" >> /etc/vnfm.config
+            inputs:
+              MANO_IP: { get_input: MANO_IP} 
+              MANO_PORT: { get_input: MANO_PORT} 
+              MANO_USER: { get_input: MANO_USER} 
+              MANO_PASSWD: { get_input: MANO_PASSWD} 
+
+
+
+
+    lixiaoli-NewC10-v6_eth0:
+      type: tosca.nodes.nfv.CP
+      properties:
+        name: eth___0
+        order: 0
+      requirements:
+        virtualLink:
+          node: Internal_network 
+          boot_proto: dhcp
+          ip_version: v4
+        virtualBinding:
+          node: lixiaoli-NewC10 
+
+    lixiaoli-NewC10-v6_eth1:
+      type: tosca.nodes.nfv.CP
+      properties:
+        name: eth___1
+        order: 1
+      requirements:
+        virtualLink:
+          node: OM_network 
+          boot_proto: dhcp
+          ip_version: v4
+        virtualBinding:
+          node: lixiaoli-NewC10 
+
+
+
+    lixiaoli-ScaleVdu:
+      type: tosca.nodes.nfv.VDU
+
+      properties:
+        order: 1
+        min_instances: 1
+        max_instances: 5
+        default_instances: 1
+      capabilities:
+        host:
+          properties:
+            num_cpus: 4
+            disk_size: 60 GB
+            mem_size: 4 GB
+            cpu_policy:   # dedicated
+            realtime_cpu_num: 0  
+            numa_nodes:
+raw data:
+
+tosca_definitions_version: tosca_simple_profile_for_nfv_1_0_0
+
+description: EB_vNewC10
+
+metadata:
+  id: 1111-1111-1111-1111
+  vendor: EB
+  version: v2.10
+imports:
+  #- tosca_base_type_definition.yaml
+
+name: vNewC10
+
+
+topology_template:
+  inputs:
+    VNF_INST_NAME:
+      type: string
+      description: 
+      valid_values:
+      default: vLIXIAOLI
+
+    VNF_PROTOCOL:
+      type: string
+      description:
+      valid_values: ['http','https']
+      default: http
+    VNF_PORT:
+      type: string
+      description: vnfm port
+      valid_values:
+      default: 8000
+    VNF_USER:
+      type: string
+      description:
+      valid_values:
+      default: wanglihe
+    VNF_PASSWD:
+      type: string
+      description:
+      valid_values:
+      default: 82325588
+    VNF_VERIFY:
+      type: string
+      description:
+      valid_values: [True,False]
+      default: False
+
+    MANO_IP:
+      type: string
+      description: vnfm ip
+      valid_values:
+      default: 10.1.14.121
+    MANO_PORT:
+      type: string
+      description: vnfm port
+      valid_values:
+      default: 2019
+    MANO_USER:
+      type: string
+      description: vnfm user
+      valid_values:
+      default: lixiaoli
+    MANO_PASSWD:
+      type: string
+      description: vnfm user password
+      valid_values:
+      default: 82325588
+
+    MSMANAGER_VIP_V6:
+      type: string
+      description: 
+      valid_values:
+      default: 2001:db4::150
+
+
+  node_templates:
+
+    Internal_network:
+      type: tosca.nodes.nfv.VL
+      properties:
+        vendor: ACME Networks
+        network_name: Vlan114
+        subnet_name: 
+
+    OM_network:
+      type: tosca.nodes.nfv.VL
+      properties:
+        vendor: ACME Networks
+        network_name: Vlan116
+        subnet_name: 
+
+
+    network_1:
+      type: tosca.nodes.nfv.NETWORK
+      properties:
+        network_name: Vlan_110
+        admin_state_up: True
+        dns_domain:     #A valid DNS domain.
+        MTU:    # Minimum value is 68 for IPv4, and 1280 for IPv6.| 承载管理的网络最大为1500B，承载业务的网络最大为3946B
+        network_type: vlan #flat, vlan, vxlan
+        physical_network: default   # 虚拟层提供的physnet名称，默认为default]，虚拟网络类型为vlan时需指定，虚拟网络类型为vxlan不能指定
+        segmentation_id:     #flat网络不指定
+        router_external:     # 是否为外部网络  [true|false]
+        vlan_transparent:    # True|False 
+        QOS_node: Qos1
+
+
+    network_1_subnet_1:
+      type: tosca.nodes.nfv.SUBNET
+      properties:
+        subnet_name: Vlan_110_subnet_v4
+        logic_network_name: network_1
+        ip_version: 4   #[4|6]
+        ipv6_ra_mode:  #[slaac] if v6
+        ipv6_address_mode:   # slaac if v6
+        cidr: 192.168.199.0/24 #cidr格式地址 "192.168.199.0/24"
+        start: 192.168.199.10           #allocation_pools
+        end: 192.168.199.200
+        gateway_ip: 192.168.199.2         # 由网络指定
+        enable_dhcp: false                # 
+        dns_nameservers: 10.1.1.4         # 
+        host_routes:                      #Additional routes for the subnet. A list of dictionaries with destination and nexthop parameters.
+
+
+
+    network_1_subnet_2:
+      type: tosca.nodes.nfv.SUBNET
+      properties:
+        subnet_name: vlan_110_subnet_v6  # 该子网属于哪一个网络（网络name在vim上面是唯一的）
+        logic_network_name: network_1  #
+        ip_version: 6   #[4|6]
+        ipv6_ra_mode: slaac    #[slaac] if v6
+        ipv6_address_mode: slaac   # slaac if v6
+        cidr: 2001:db9::/64 #cidr格式地址 "192.168.199.0/24"
+        start: 2001:db9::4           #allocation_pools
+        end: 2001:db9::2000
+        gateway_ip: 2001:db9::2         # 由网络指定
+        enable_dhcp: True                #v6的dhcp为True
+        dns_nameservers: 2001:db9::3         # 
+        host_routes:                      #Additional routes for the subnet. A list of dictionaries with destination and nexthop parameters.
+
+
+
+
+
+
+
+    #lixiaoli-ScaleVdu_PORT1:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_addr: 10.1.17.99
+    #    ip_version: v4
+    #    vl: Internal_network 
+    #    node: lixiaoli-ScaleVdu
+        
+
+    #lixiaoli-NewC10-v6_PORT1:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #     ip_addr: 10.1.13.12
+    #    ip_version: v4
+    #     vl: OM_network 
+    #    node: lixiaoli-NewC10-v6
+
+    #lixiaoli-ScaleVdu_PORT2:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_version: v6
+    #    vl: Internal_network
+    #    ip_addr: 2001:db4::1000
+    #    node: lixiaoli-ScaleVdu
+
+
+    #lixiaoli-NewC10-v6_PORT2:
+    #  type: tosca.nodes.nfv.PORT
+    #  properties:
+    #    ip_version: v6
+    #    vl: Internal_network
+    #    ip_addr: { get_input: MSMANAGER_VIP_V6 }
+    #    node: lixiaoli-NewC10-v6
+
+
+
+
+    lixiaoli-NewC10:
+      type: tosca.nodes.nfv.VDU
+      properties:
+        order: 1
+        min_instances: 1
+        max_instances: 6
+        default_instances: 1
+      capabilities:
+        host:
+          properties:
+            num_cpus: 4
+            disk_size: 40 GB
+            mem_size:  4GB
+            cpu_policy:          # cpu绑定 dedicated
+            realtime_cpu_num: 0  # 网元实时性
+            mem_page_sizel:       # 巨页参数 any,larger,1G
+            numa_nodes:    # 从几个NUMA节点上分配资源,这个参数格式不能乱写，会影响设置flavor属性（1，2，3，4 int型,非0）
+            vif_mutliqueue_enabled: disable   # 多队列vNIC( 
+
+
+        volume:
+          properties:
+            enable: False
+            size: 20 GB
+            type: multiattach
+            multiattach: True
+
+      artifacts:
+        VM_image:
+          type: tosca.artifacts.Deployment.Image.VM
+          file: redhat6_standered_base_2
+          #file: C10-VNF-20171226 
+          #file:  base_image_test
+          #file:  c10-vnf-0330
+          #file:  redhat_standered_base_2
+        location:
+          # 以下三项选填
+          zone:
+          aggregate:
+          host:
+          server_group: 
+
+        boot:
+          # 必填
+          config_drive: True
+
+      interfaces:
+        injections: 
+          - destination: /tmp/lixiaoli1
+            content: |
+              11111111111
+              222222222222
+          - destination: /tmp/lixiaoli2
+            content: |
+              3333333333333333333
+              4444444444444444444
+        Standard:
+          create:
+            implementation: |
+              #!/bin/bash
+              echo -e "[vm_base_para]" > /etc/vnfm.config
+              echo -e "MANO_IP = $MANO_IP" >> /etc/vnfm.config
+              echo -e "MANO_PORT = $MANO_PORT" >> /etc/vnfm.config
+              echo -e "MANO_USER = $MANO_USER" >> /etc/vnfm.config
+              echo -e "MANO_PASSWD = $MANO_PASSWD" >> /etc/vnfm.config
+              echo -e "QQQQQQQQQQQQQQQQQQQ" >> /etc/vnfm.config
+              echo -e "ZZZZZZZZZZZZZZZZZZZZ" >> /etc/vnfm.config
+            inputs:
+              MANO_IP: { get_input: MANO_IP} 
+              MANO_PORT: { get_input: MANO_PORT} 
+              MANO_USER: { get_input: MANO_USER} 
+              MANO_PASSWD: { get_input: MANO_PASSWD} 
+
+
+
+
+    lixiaoli-NewC10-v6_eth0:
+      type: tosca.nodes.nfv.CP
+      properties:
+        name: eth___0
+        order: 0
+      requirements:
+        virtualLink:
+          node: Internal_network 
+          boot_proto: dhcp
+          ip_version: v4
+        virtualBinding:
+          node: lixiaoli-NewC10 
+
+    lixiaoli-NewC10-v6_eth1:
+      type: tosca.nodes.nfv.CP
+      properties:
+        name: eth___1
+        order: 1
+      requirements:
+        virtualLink:
+          node: OM_network 
+          boot_proto: dhcp
+          ip_version: v4
+        virtualBinding:
+          node: lixiaoli-NewC10 
+
+
+
+    lixiaoli-ScaleVdu:
+      type: tosca.nodes.nfv.VDU
+
+      properties:
+        order: 1
+        min_instances: 1
+        max_instances: 5
+        default_instances: 1
+      capabilities:
+        host:
+          properties:
+            num_cpus: 4
+            disk_size: 60 GB
+            mem_size: 4 GB
+            cpu_policy:   # dedicated
+            realtime_cpu_num: 0  
+            numa_nodes:
+***********receive request *****************
+vnfm:
+verbose:False
+method: GET
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42938
+dst_port: 2001
+path: /v1/vnfds/89b084d6-66fe-4070-aab7-9b3334937fb1?NFVOID=1&VNFMID=222
+body:
+
+headers:
+{'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
+ack: 3728299965
+***********response data*****************
+vnfm:
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 2001
+dst_port: 42938
+body:
+HTTP/1.0 200 OK
+headers:
+{'date': 'Wed, 25 Apr 2018 05:43:23 GMT', 'content-length': '3809', 'content-type': 'application/json', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+ack: 652893930
+raw data:
+
+{
+  "metadata": {
+    "vnfd_description": "EB_vNewC10", 
+    "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+    "vnfd_name": "vNewC10", 
+    "vnfd_vendor": "EB", 
+    "vnfd_version": "v2.10"
+  }, 
+  "topology_templates": [
+    {
+      "VDU": [
+        {
+          "image_file": "test-redhat-base", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-ScaleVdu", 
+          "vdu_type": "lixiaoli-ScaleVdu"
+        }, 
+        {
+          "image_file": "redhat6_standered_base_2", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-NewC10", 
+          "vdu_type": "lixiaoli-NewC10"
+        }
+      ], 
+      "deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+      "description": "EB_vNewC10", 
+      "inputs": [
+        {
+          "default": "wanglihe", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 8000, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "VNF_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": false, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_VERIFY", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            true, 
+            false
+          ]
+        }, 
+        {
+          "default": "vLIXIAOLI", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_INST_NAME", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "vnfm user password", 
+          "isvisible": "true", 
+          "key_name": "MANO_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "2001:db4::150", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "MSMANAGER_VIP_V6", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 2019, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "MANO_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "lixiaoli", 
+          "description": "vnfm user", 
+          "isvisible": "true", 
+          "key_name": "MANO_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "http", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PROTOCOL", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            "http", 
+            "https"
+          ]
+        }, 
+        {
+          "default": "10.1.14.121", 
+          "description": "vnfm ip", 
+          "isvisible": "true", 
+          "key_name": "MANO_IP", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }
+      ]
+    }
+  ]
+}
+raw data:
+
+{
+  "metadata": {
+    "vnfd_description": "EB_vNewC10", 
+    "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+    "vnfd_name": "vNewC10", 
+    "vnfd_vendor": "EB", 
+    "vnfd_version": "v2.10"
+  }, 
+  "topology_templates": [
+    {
+      "VDU": [
+        {
+          "image_file": "test-redhat-base", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-ScaleVdu", 
+          "vdu_type": "lixiaoli-ScaleVdu"
+        }, 
+        {
+          "image_file": "redhat6_standered_base_2", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-NewC10", 
+          "vdu_type": "lixiaoli-NewC10"
+        }
+      ], 
+      "deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+      "description": "EB_vNewC10", 
+      "inputs": [
+        {
+          "default": "wanglihe", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 8000, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "VNF_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": false, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_VERIFY", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            true, 
+            false
+          ]
+        }, 
+        {
+          "default": "vLIXIAOLI", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_INST_NAME", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "vnfm user password", 
+          "isvisible": "true", 
+          "key_name": "MANO_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "2001:db4::150", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "MSMANAGER_VIP_V6", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 2019, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "MANO_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "lixiaoli", 
+          "description": "vnfm user", 
+          "isvisible": "true", 
+          "key_name": "MANO_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "http", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PROTOCOL", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            "http", 
+            "https"
+          ]
+        }, 
+        {
+          "default": "10.1.14.121", 
+          "description": "vnfm ip", 
+          "isvisible": "true", 
+          "key_name": "MANO_IP", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }
+      ]
+    }
+  ]
+}
+***********receive request *****************
+vnfm:
+verbose:False
+method: POST
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42940
+dst_port: 2001
+path: /v1/vnfs
+body:
+{"deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", "inputs": [{"default": "wanglihe", "key_name": "VNF_USER", "type": "string", "description": "", "value": "wanglihe"}, {"default": 8000, "key_name": "VNF_PORT", "type": "string", "description": "vnfm port", "value": 8000}, {"default": 82325588, "key_name": "VNF_PASSWD", "type": "string", "description": "", "value": 82325588}, {"default": false, "key_name": "VNF_VERIFY", "type": "string", "description": "", "value": false}, {"default": "vLIXIAOLI", "key_name": "VNF_INST_NAME", "type": "string", "description": "", "value": "vLIXIAOLI-4"}, {"default": 82325588, "key_name": "MANO_PASSWD", "type": "string", "description": "vnfm user password", "value": 82325588}, {"default": "2001:db4::150", "key_name": "MSMANAGER_VIP_V6", "type": "string", "description": "", "value": "2001:db4::150"}, {"default": 2019, "key_name": "MANO_PORT", "type": "string", "description": "vnfm port", "value": 2019}, {"default": "lixiaoli", "key_name": "MANO_USER", "type": "string", "description": "vnfm user", "value": "lixiaoli"}, {"default": "http", "key_name": "VNF_PROTOCOL", "type": "string", "description": "", "value": "http"}, {"default": "10.1.14.121", "key_name": "MANO_IP", "type": "string", "description": "vnfm ip", "value": "10.1.14.121"}], "vnfmid": "222", "nfvoid": "1", "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1"}
+headers:
+{'content-length': '1377', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
+ack: 623266274
+***********response data*****************
+vnfm:
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 2001
+dst_port: 42940
+body:
+HTTP/1.0 202 ACCEPTED
+headers:
+{'http/1.0 202 accepted': '', 'date': 'Wed, 25 Apr 2018 05:43:33 GMT', 'content-length': '95', 'content-type': 'application/json', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+ack: 531320075
+raw data:
+
+Content-Type: application/json
+Content-Length: 95
+Server: Werkzeug/0.9.1 Python/2.7.5
+Date: Wed, 25 Apr 2018 05:43:33 GMT
+
+{
+  "jobid": "job_20180425134333", 
+  "vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295"
+}
+raw data:
+
+Content-Type: application/json
+Content-Length: 95
+Server: Werkzeug/0.9.1 Python/2.7.5
+Date: Wed, 25 Apr 2018 05:43:33 GMT
+
+{
+  "jobid": "job_20180425134333", 
+  "vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295"
+}
+***********receive request *****************
+nfvo:
+verbose:False
+method: POST
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 48796
+dst_port: 9102
+path: /v1/vnfs/eventnotification
+body:
+{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "nfvoid": "1", "eventdescription": "INSTANTIATE--VNF--vLIXIAOLI-4--[2cad95a2-f788-42f9-89f3-4af84a4e7295]", "eventtype": 1, "jobid": "job_20180425134333", "vnfmid": "222"}
+headers:
+{'content-length': '229', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+ack: 1388549377
+***********receive request *****************
+nfvo:
+verbose:False
+method: PUT
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 48798
+dst_port: 9102
+path: /v1/resource/grant
+body:
+{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "vnfmid": "222", "nfvoid": "1", "vmlist": [{"vmnumber": 1, "vmflavor": "lixiaoli-ScaleVdu"}, {"vmnumber": 1, "vmflavor": "lixiaoli-NewC10"}], "operationright": 0}
+headers:
+{'content-length': '220', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+ack: 769930672
+***********response data*****************
+nfvo:
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 9102
+dst_port: 48798
+body:
+HTTP/1.0 201 CREATED
+headers:
+{'date': 'Wed, 25 Apr 2018 05:43:34 GMT', 'content-length': '33', 'content-type': 'application/json', 'http/1.0 201 created': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+ack: 3149780703
+raw data:
+
+{"tenant": "admin", "vimid": "1"}
+raw data:
+
+{"tenant": "admin", "vimid": "1"}
+***********receive request *****************
+openstack
+verbose:False
+method: POST
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 51212
+dst_port: 5000
+path: /v3/auth/tokens
+body:
+{"auth": {"scope": {"project": {"domain": {"name": "Default"}, "name": "admin"}}, "identity": {"password": {"user": {"domain": {"name": "Default"}, "password": "82325588", "name": "admin"}}, "methods": ["password"]}}}
+headers:
+{'content-length': '217', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:5000', 'content-type': 'application/json;charset=utf-8'}
+ack: 477324261
+***********response data*****************
+openstack
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 5000
+dst_port: 51212
+body:
+HTTP/1.0 201 CREATED
+headers:
+{'content-length': '4673', 'x-subject-token': 'gAAAAABaXB5PuzgOm-YsajnFsD5NYrrrw3B', 'vary': 'X-Auth-Token', 'http/1.0 201 created': '', 'keep-alive': 'timeout=5, max=100', 'connection': 'Keep-Alive', 'date': 'Wed, 25 Apr 2018 05:43:34 GMT', 'x-openstack-request-id': 'req-af2f24ad-2c42-494d-bf98-456b24907d86', 'server': 'Werkzeug/0.9.1 Python/2.7.5', 'content-type': 'application/json', 'x-distribution': 'Ubunt'}
+ack: 3571709777
+raw data:
+
+{"token": {"audit_ids": ["Afomeg6gQ56FFvZbxt_Y-w"], "catalog": [{"endpoints": [{"id": "91050788b23c4fb28ddf1b9c84d5cff1", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:5000/v3/"}, {"id": "b04e37b862dc47fa8f5494c6f0d1f00a", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:35357/v3/"}, {"id": "e21defc764fc4933b4bf17c8d3ce8234", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:35357/v3/"}], "id": "27b2c45d7cea492d973d39edf5c5395a", "name": "keystone", "type": "identity"}, {"endpoints": [{"id": "41d6c2f6061d45c0ac6464bae8c4b894", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "61328e4bd55f41d386a44c635bfce3ad", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "9983c8fae9ad485fa24e1eb5926b4e7d", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "67180f6c6b654a959bf1e98827933e6e", "name": "cinderv2", "type": "volumev2"}, {"endpoints": [{"id": "02d4ef53802f4551baafd8e76679978a", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}, {"id": "16a8866748e14a339511a665285cff74", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}, {"id": "c44dabb0340640949e610f3fa29c97f4", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}], "id": "82fee42492c14d019dc7bd9007436d31", "name": "neutron", "type": "network"}, {"endpoints": [{"id": "211d3535b66d4d92a1a5cc28de67180a", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}, {"id": "706c1b852cb8483bb919f9d5d3a6be1c", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}, {"id": "746a0cbb3a8d4179baf98f9b525a9f7c", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}], "id": "905fce7835c94f63b49ea0c3d0187c38", "name": "glance", "type": "image"}, {"endpoints": [{"id": "0f4afdcc41634c91a300242c4635fda8", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "8cfb892acd02428e97fbe1e8d45648a1", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "f37f8473eb264bf98de73531303f8c16", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "e25e311d4dd94c4dabaf020c459955a8", "name": "nova", "type": "compute"}, {"endpoints": [{"id": "62bfecb7800a4412bb667ccf3c973ed7", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}, {"id": "70b25b5d4e91449094dc502f5e6314b0", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}, {"id": "9bff0505ed58455fab79dfce22a6a8eb", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}], "id": "eb4553bac306465d939167298a8394f7", "name": "ceilometer", "type": "metering"}, {"endpoints": [{"id": "898de02671914351be5db32888e525cd", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "dd457b768c5e41a281dcff9e60007607", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "e080eb9eb81c488ea05d71c4bd6106f3", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "f9a50151a1d64c5e97e80a65a51a00e8", "name": "cinder", "type": "volume"}], "expires_at": "2018-01-23T03:35:41.000000Z", "is_domain": false, "issued_at": "2018-01-23T02:35:41.000000Z", "methods": ["password"], "project": {"domain": {"id": "default", "name": "Default"}, "id": "2a4a904abf404cf0ace951e85ab2da6c", "name": "admin"}, "roles": [{"id": "668d4876a79b4b49889a38a3bd55f433", "name": "admin"}], "user": {"domain": {"id": "default", "name": "Default"}, "id": "401f9d6e47464fc5b94cddf14fefeb9a", "name": "admin"}}}
+raw data:
+
+{"token": {"audit_ids": ["Afomeg6gQ56FFvZbxt_Y-w"], "catalog": [{"endpoints": [{"id": "91050788b23c4fb28ddf1b9c84d5cff1", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:5000/v3/"}, {"id": "b04e37b862dc47fa8f5494c6f0d1f00a", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:35357/v3/"}, {"id": "e21defc764fc4933b4bf17c8d3ce8234", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:35357/v3/"}], "id": "27b2c45d7cea492d973d39edf5c5395a", "name": "keystone", "type": "identity"}, {"endpoints": [{"id": "41d6c2f6061d45c0ac6464bae8c4b894", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "61328e4bd55f41d386a44c635bfce3ad", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "9983c8fae9ad485fa24e1eb5926b4e7d", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v2/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "67180f6c6b654a959bf1e98827933e6e", "name": "cinderv2", "type": "volumev2"}, {"endpoints": [{"id": "02d4ef53802f4551baafd8e76679978a", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}, {"id": "16a8866748e14a339511a665285cff74", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}, {"id": "c44dabb0340640949e610f3fa29c97f4", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000"}], "id": "82fee42492c14d019dc7bd9007436d31", "name": "neutron", "type": "network"}, {"endpoints": [{"id": "211d3535b66d4d92a1a5cc28de67180a", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}, {"id": "706c1b852cb8483bb919f9d5d3a6be1c", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}, {"id": "746a0cbb3a8d4179baf98f9b525a9f7c", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:9292"}], "id": "905fce7835c94f63b49ea0c3d0187c38", "name": "glance", "type": "image"}, {"endpoints": [{"id": "0f4afdcc41634c91a300242c4635fda8", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "8cfb892acd02428e97fbe1e8d45648a1", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "f37f8473eb264bf98de73531303f8c16", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://10.1.13.105:5000/v2.1/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "e25e311d4dd94c4dabaf020c459955a8", "name": "nova", "type": "compute"}, {"endpoints": [{"id": "62bfecb7800a4412bb667ccf3c973ed7", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}, {"id": "70b25b5d4e91449094dc502f5e6314b0", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}, {"id": "9bff0505ed58455fab79dfce22a6a8eb", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8777"}], "id": "eb4553bac306465d939167298a8394f7", "name": "ceilometer", "type": "metering"}, {"endpoints": [{"id": "898de02671914351be5db32888e525cd", "interface": "admin", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "dd457b768c5e41a281dcff9e60007607", "interface": "public", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}, {"id": "e080eb9eb81c488ea05d71c4bd6106f3", "interface": "internal", "region": "RegionOne", "region_id": "RegionOne", "url": "http://controller:8776/v1/2a4a904abf404cf0ace951e85ab2da6c"}], "id": "f9a50151a1d64c5e97e80a65a51a00e8", "name": "cinder", "type": "volume"}], "expires_at": "2018-01-23T03:35:41.000000Z", "is_domain": false, "issued_at": "2018-01-23T02:35:41.000000Z", "methods": ["password"], "project": {"domain": {"id": "default", "name": "Default"}, "id": "2a4a904abf404cf0ace951e85ab2da6c", "name": "admin"}, "roles": [{"id": "668d4876a79b4b49889a38a3bd55f433", "name": "admin"}], "user": {"domain": {"id": "default", "name": "Default"}, "id": "401f9d6e47464fc5b94cddf14fefeb9a", "name": "admin"}}}
+***********receive request *****************
+nfvo:
+verbose:False
+method: POST
+up is method
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 48802
+dst_port: 9102
+path: /v1/vnfs/eventnotification
+body:
+{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "nfvoid": "1", "eventdescription": "ROLLBACK--VNF--vLIXIAOLI-4--[2cad95a2-f788-42f9-89f3-4af84a4e7295]", "eventtype": 5, "jobid": "job_20180425134334", "vnfmid": "222"}
+headers:
+{'content-length': '226', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+ack: 4278457160

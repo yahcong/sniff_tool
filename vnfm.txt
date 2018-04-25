@@ -1,0 +1,207 @@
+************receive request *************
+method: GET
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42934
+dst_port: 2001
+path: /v1/web/catalog/packages/89b084d6-66fe-4070-aab7-9b3334937fb1/files/vnfd/EB_vnfd_vNewC10_69_76.yaml
+body:
+
+headers:
+{'host': '10.1.13.105:2001', 'accept': '*/*', 'user-agent': 'curl/7.29.0'}
+*************************
+************receive request *************
+method: GET
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42938
+dst_port: 2001
+path: /v1/vnfds/89b084d6-66fe-4070-aab7-9b3334937fb1?NFVOID=1&VNFMID=222
+body:
+
+headers:
+{'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
+*************************
+************response data ************
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 2001
+dst_port: 42938
+headers:
+{'date': 'Wed, 25 Apr 2018 05:43:23 GMT', 'content-length': '3809', 'content-type': 'application/json', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+raw data:
+{
+  "metadata": {
+    "vnfd_description": "EB_vNewC10", 
+    "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+    "vnfd_name": "vNewC10", 
+    "vnfd_vendor": "EB", 
+    "vnfd_version": "v2.10"
+  }, 
+  "topology_templates": [
+    {
+      "VDU": [
+        {
+          "image_file": "test-redhat-base", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-ScaleVdu", 
+          "vdu_type": "lixiaoli-ScaleVdu"
+        }, 
+        {
+          "image_file": "redhat6_standered_base_2", 
+          "isscalable": "true", 
+          "nfv_compute": {
+            "cpu_cores": 4, 
+            "mem_size": 4
+          }, 
+          "vdu_id": "lixiaoli-NewC10", 
+          "vdu_type": "lixiaoli-NewC10"
+        }
+      ], 
+      "deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", 
+      "description": "EB_vNewC10", 
+      "inputs": [
+        {
+          "default": "wanglihe", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 8000, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "VNF_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": false, 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_VERIFY", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            true, 
+            false
+          ]
+        }, 
+        {
+          "default": "vLIXIAOLI", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_INST_NAME", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 82325588, 
+          "description": "vnfm user password", 
+          "isvisible": "true", 
+          "key_name": "MANO_PASSWD", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "2001:db4::150", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "MSMANAGER_VIP_V6", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": 2019, 
+          "description": "vnfm port", 
+          "isvisible": "true", 
+          "key_name": "MANO_PORT", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "lixiaoli", 
+          "description": "vnfm user", 
+          "isvisible": "true", 
+          "key_name": "MANO_USER", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }, 
+        {
+          "default": "http", 
+          "description": "", 
+          "isvisible": "true", 
+          "key_name": "VNF_PROTOCOL", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": [
+            "http", 
+            "https"
+          ]
+        }, 
+        {
+          "default": "10.1.14.121", 
+          "description": "vnfm ip", 
+          "isvisible": "true", 
+          "key_name": "MANO_IP", 
+          "mandatory": "true", 
+          "type": "string", 
+          "valid_values": null
+        }
+      ]
+    }
+  ]
+}
+************************
+************receive request *************
+method: POST
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 42940
+dst_port: 2001
+path: /v1/vnfs
+body:
+{"deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", "inputs": [{"default": "wanglihe", "key_name": "VNF_USER", "type": "string", "description": "", "value": "wanglihe"}, {"default": 8000, "key_name": "VNF_PORT", "type": "string", "description": "vnfm port", "value": 8000}, {"default": 82325588, "key_name": "VNF_PASSWD", "type": "string", "description": "", "value": 82325588}, {"default": false, "key_name": "VNF_VERIFY", "type": "string", "description": "", "value": false}, {"default": "vLIXIAOLI", "key_name": "VNF_INST_NAME", "type": "string", "description": "", "value": "vLIXIAOLI-4"}, {"default": 82325588, "key_name": "MANO_PASSWD", "type": "string", "description": "vnfm user password", "value": 82325588}, {"default": "2001:db4::150", "key_name": "MSMANAGER_VIP_V6", "type": "string", "description": "", "value": "2001:db4::150"}, {"default": 2019, "key_name": "MANO_PORT", "type": "string", "description": "vnfm port", "value": 2019}, {"default": "lixiaoli", "key_name": "MANO_USER", "type": "string", "description": "vnfm user", "value": "lixiaoli"}, {"default": "http", "key_name": "VNF_PROTOCOL", "type": "string", "description": "", "value": "http"}, {"default": "10.1.14.121", "key_name": "MANO_IP", "type": "string", "description": "vnfm ip", "value": "10.1.14.121"}], "vnfmid": "222", "nfvoid": "1", "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1"}
+headers:
+{'content-length': '1377', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
+*************************
+************response data ************
+src_ip: 10.1.13.105
+dst_ip: 10.1.13.105
+src_port: 2001
+dst_port: 42940
+headers:
+{'http/1.0 202 accepted': '', 'date': 'Wed, 25 Apr 2018 05:43:33 GMT', 'content-length': '95', 'content-type': 'application/json', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+raw data:
+Content-Type: application/json
+Content-Length: 95
+Server: Werkzeug/0.9.1 Python/2.7.5
+Date: Wed, 25 Apr 2018 05:43:33 GMT
+
+{
+  "jobid": "job_20180425134333", 
+  "vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295"
+}
+************************
