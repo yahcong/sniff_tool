@@ -20,7 +20,8 @@ from StringIO import StringIO
 from urllib import unquote
 
 from config import *
-
+from savelog import *
+from printlog import *
 ack_tmp=0
 #import binascii    #already imported on line 10
 # Debug
@@ -565,90 +566,31 @@ def other_parser(src_ip_port, dst_ip_port, full_load, ack, seq, pkt, verbose):
     if http_line != None:
         method, path = parse_http_line(http_line, http_methods)
         http_url_req = get_http_url(method, host, path, headers)
-        #if http_url_req != None:
-        if 1:
-            #print 'http_url_req:'+http_url_req
-            global ack_tmp
-            if ack==ack_tmp:
-                return
-            else:   
-                ack_tmp=ack
-            
-            src_ip = src_ip_port.split(':')[0]
-            src_port = int(src_ip_port.split(':')[1])
-            dst_ip = dst_ip_port.split(':')[0]
-            dst_port = int(dst_ip_port.split(':')[1])
-            print '***********receive request *****************'
-
-            if src_port == vnfm_port or dst_port == vnfm_port:
-                print 'vnfm:'
-                with open("vnfm.txt","a") as f:
-                    f.write('************receive request *************\n')
-                    f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    f.write('path: '+str(path)+'\n')
-                    f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    #f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('*************************\n')
-            if src_port ==vnf_port or dst_port ==vnf_port :
-                print 'vnf:'
-                with open("vnf.txt","a") as f:
-                    f.write('************receive request *************\n')
-                    f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    f.write('path: '+str(path)+'\n')
-                    f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    #f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
-            if src_port==openstack_port or dst_port == openstack_port:
-                print 'openstack'
-                with open("openstack.txt","a") as f:
-                    f.write('************receive request *************\n')
-                    f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    f.write('path: '+str(path)+'\n')
-                    f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    #f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
-            if src_port== nfvo_port or dst_port == nfvo_port:
-                print "nfvo:"
-                with open("nfvo.txt","a") as f:
-                    f.write('************receive request *************\n')
-                    f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    f.write('path: '+str(path)+'\n')
-                    f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    #f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
-            print 'verbose:'+str(verbose)
-            print 'method: '+str(method)
-            print ("up is method")
-            print 'src_ip: '+str(src_ip)
-            print 'dst_ip: '+str(dst_ip)
-            print 'src_port: '+str(src_port)
-            print 'dst_port: '+str(dst_port)
-            print 'path: '+str(path)
-            print 'body:\n'+str(body)
-            print 'headers:\n'+str(headers)
-            print 'ack: '+str(ack)
-            #print 'raw data:\n'+str(pkt[Raw])
-            
+        global ack_tmp
+        if ack==ack_tmp:
+            return
+        else:   
+            ack_tmp=ack
+        
+        src_ip = src_ip_port.split(':')[0]
+        src_port = int(src_ip_port.split(':')[1])
+        dst_ip = dst_ip_port.split(':')[0]
+        dst_port = int(dst_ip_port.split(':')[1])
+        if src_port == vnfm_port or dst_port == vnfm_port:
+            servername = 'vnfm'
+            writerequest(servername,method,src_ip,dst_ip,src_port,dst_port,path,body,headers)
+        if src_port ==vnf_port or dst_port ==vnf_port :
+            servername = 'vnf'
+            writerequest(servername,method,src_ip,dst_ip,src_port,dst_port,path,body,headers)
+        if src_port==openstack_port or dst_port == openstack_port:
+            servername = 'openstack'
+            writerequest(servername,method,src_ip,dst_ip,src_port,dst_port,path,body,headers)
+        if src_port== nfvo_port or dst_port == nfvo_port:
+            servername = 'nfvo'
+            writerequest(servername,method,src_ip,dst_ip,src_port,dst_port,path,body,headers)
+        
+        printrequest(servername,method,src_ip,dst_ip,src_port,dst_port,path,body,headers)
+    
     else: 
         if '{' in str(pkt[Raw]) and ack!=ack_tmp:
             ack_tmp=ack
@@ -656,86 +598,21 @@ def other_parser(src_ip_port, dst_ip_port, full_load, ack, seq, pkt, verbose):
             src_port = int(src_ip_port.split(':')[1])
             dst_ip = dst_ip_port.split(':')[0]
             dst_port = int(dst_ip_port.split(':')[1])
-            print '***********response data*****************'
+            responsedata = str(pkt[Raw])
             if src_port == vnfm_port or dst_port == vnfm_port:
-                print 'vnfm:'
-                with open("vnfm.txt","a") as f:
-                    f.write('************response data ************\n')
-                    #f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    #f.write('path: '+str(path)+'\n')
-                    #f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    if '{' in str(pkt[Raw]):
-                        f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
+                servername = 'vnfm'
+                writeresponsn(servername,src_ip,dst_ip,src_port,dst_port,headers,responsedata)
             if src_port ==vnf_port or dst_port ==vnf_port :
-                print 'vnf:'
-                with open("vnf.txt","a") as f:
-                    f.write('************response data *************\n')
-                    #f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    #f.write('path: '+str(path)+'\n')
-                    #f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    if '{' in str(pkt[Raw]):
-                        f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
+                servername = 'vnf'
+                writeresponsn(servername,src_ip,dst_ip,src_port,dst_port,headers,responsedata)
             if src_port==openstack_port or dst_port == openstack_port:
-                print 'openstack'
-                with open("openstack.txt","a") as f:
-                    f.write('************response data *************\n')
-                    #f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    #f.write('path: '+str(path)+'\n')
-                    #f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    if '{' in str(pkt[Raw]):
-                        f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
+                servername = 'openstack'
+                writeresponsn(servername,src_ip,dst_ip,src_port,dst_port,headers,responsedata)
             if src_port== nfvo_port or dst_port == nfvo_port:
-                print "nfvo:"
-                with open("nfvo.txt","a") as f:
-                    f.write('************response data *************\n')
-                    #f.write('method: '+str(method)+'\n')
-                    f.write('src_ip: '+str(src_ip)+'\n')
-                    f.write('dst_ip: '+str(dst_ip)+'\n')
-                    f.write('src_port: '+str(src_port)+'\n')
-                    f.write('dst_port: '+str(dst_port)+'\n')
-                    #f.write('path: '+str(path)+'\n')
-                    #f.write('body:\n'+str(body)+'\n')
-                    f.write('headers:\n'+str(headers)+'\n')
-                    if '{' in str(pkt[Raw]):
-                        f.write('raw data:\n'+str(pkt[Raw])+'\n')
-                    f.write('************************\n')
-            #print 'method: '+str(method)
-            #print 'verbose:'+str(verbose)
-            #print 'http_url_req:'+str(http_url_req)
-        
-            print 'src_ip: '+str(src_ip)
-            print 'dst_ip: '+str(dst_ip)
-            print 'src_port: '+str(src_port)
-            print 'dst_port: '+str(dst_port)
-            #print 'path: '+str(path)
-            print 'body:\n'+str(body.split('\n')[0])
-            print 'headers:\n'+str(headers)
-            print 'ack: '+str(ack)
-            if '{' in str(pkt[Raw]):
-                print 'raw data:\n'
-                print str(pkt[Raw])
-            #print 'show'
-            #print pkt.show()
-            print 'raw data:\n'
-            print str(pkt[Raw].load)
+                servername = 'nfvo'
+                writeresponsn(servername,src_ip,dst_ip,src_port,dst_port,headers,responsedata)
+
+            printresponsn(servername,src_ip,dst_ip,src_port,dst_port,headers,responsedata)
         else:
             return
 

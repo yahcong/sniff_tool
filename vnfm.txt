@@ -2,34 +2,34 @@
 method: GET
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 42934
+src_port: 43406
 dst_port: 2001
 path: /v1/web/catalog/packages/89b084d6-66fe-4070-aab7-9b3334937fb1/files/vnfd/EB_vnfd_vNewC10_69_76.yaml
 body:
 
 headers:
 {'host': '10.1.13.105:2001', 'accept': '*/*', 'user-agent': 'curl/7.29.0'}
-*************************
+*****************end***************
 ************receive request *************
 method: GET
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 42938
+src_port: 43410
 dst_port: 2001
 path: /v1/vnfds/89b084d6-66fe-4070-aab7-9b3334937fb1?NFVOID=1&VNFMID=222
 body:
 
 headers:
 {'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
-*************************
+*****************end***************
 ************response data ************
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
 src_port: 2001
-dst_port: 42938
+dst_port: 43410
 headers:
-{'date': 'Wed, 25 Apr 2018 05:43:23 GMT', 'content-length': '3809', 'content-type': 'application/json', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
-raw data:
+{'date': 'Wed, 25 Apr 2018 08:46:59 GMT', 'content-length': '3809', 'content-type': 'application/json', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+response data:
 {
   "metadata": {
     "vnfd_description": "EB_vNewC10", 
@@ -174,34 +174,34 @@ raw data:
     }
   ]
 }
-************************
+*****************end***************
 ************receive request *************
 method: POST
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 42940
+src_port: 43412
 dst_port: 2001
 path: /v1/vnfs
 body:
-{"deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", "inputs": [{"default": "wanglihe", "key_name": "VNF_USER", "type": "string", "description": "", "value": "wanglihe"}, {"default": 8000, "key_name": "VNF_PORT", "type": "string", "description": "vnfm port", "value": 8000}, {"default": 82325588, "key_name": "VNF_PASSWD", "type": "string", "description": "", "value": 82325588}, {"default": false, "key_name": "VNF_VERIFY", "type": "string", "description": "", "value": false}, {"default": "vLIXIAOLI", "key_name": "VNF_INST_NAME", "type": "string", "description": "", "value": "vLIXIAOLI-4"}, {"default": 82325588, "key_name": "MANO_PASSWD", "type": "string", "description": "vnfm user password", "value": 82325588}, {"default": "2001:db4::150", "key_name": "MSMANAGER_VIP_V6", "type": "string", "description": "", "value": "2001:db4::150"}, {"default": 2019, "key_name": "MANO_PORT", "type": "string", "description": "vnfm port", "value": 2019}, {"default": "lixiaoli", "key_name": "MANO_USER", "type": "string", "description": "vnfm user", "value": "lixiaoli"}, {"default": "http", "key_name": "VNF_PROTOCOL", "type": "string", "description": "", "value": "http"}, {"default": "10.1.14.121", "key_name": "MANO_IP", "type": "string", "description": "vnfm ip", "value": "10.1.14.121"}], "vnfmid": "222", "nfvoid": "1", "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1"}
+{"deployflavorid": "89b084d6-66fe-4070-aab7-9b3334937fb1", "inputs": [{"default": "wanglihe", "key_name": "VNF_USER", "type": "string", "description": "", "value": "wanglihe"}, {"default": 8000, "key_name": "VNF_PORT", "type": "string", "description": "vnfm port", "value": 8000}, {"default": 82325588, "key_name": "VNF_PASSWD", "type": "string", "description": "", "value": 82325588}, {"default": false, "key_name": "VNF_VERIFY", "type": "string", "description": "", "value": false}, {"default": "vLIXIAOLI", "key_name": "VNF_INST_NAME", "type": "string", "description": "", "value": "vLIXIAOLI-11"}, {"default": 82325588, "key_name": "MANO_PASSWD", "type": "string", "description": "vnfm user password", "value": 82325588}, {"default": "2001:db4::150", "key_name": "MSMANAGER_VIP_V6", "type": "string", "description": "", "value": "2001:db4::150"}, {"default": 2019, "key_name": "MANO_PORT", "type": "string", "description": "vnfm port", "value": 2019}, {"default": "lixiaoli", "key_name": "MANO_USER", "type": "string", "description": "vnfm user", "value": "lixiaoli"}, {"default": "http", "key_name": "VNF_PROTOCOL", "type": "string", "description": "", "value": "http"}, {"default": "10.1.14.121", "key_name": "MANO_IP", "type": "string", "description": "vnfm ip", "value": "10.1.14.121"}], "vnfmid": "222", "nfvoid": "1", "vnfd_id": "89b084d6-66fe-4070-aab7-9b3334937fb1"}
 headers:
-{'content-length': '1377', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
-*************************
+{'content-length': '1378', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:2001', 'content-type': 'application/json;charset=utf-8'}
+*****************end***************
 ************response data ************
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
 src_port: 2001
-dst_port: 42940
+dst_port: 43412
 headers:
-{'http/1.0 202 accepted': '', 'date': 'Wed, 25 Apr 2018 05:43:33 GMT', 'content-length': '95', 'content-type': 'application/json', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
-raw data:
+{'http/1.0 202 accepted': '', 'date': 'Wed, 25 Apr 2018 08:47:09 GMT', 'content-length': '95', 'content-type': 'application/json', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+response data:
 Content-Type: application/json
 Content-Length: 95
 Server: Werkzeug/0.9.1 Python/2.7.5
-Date: Wed, 25 Apr 2018 05:43:33 GMT
+Date: Wed, 25 Apr 2018 08:47:09 GMT
 
 {
-  "jobid": "job_20180425134333", 
-  "vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295"
+  "jobid": "job_20180425164709", 
+  "vnfinstanceid": "5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef"
 }
-************************
+*****************end***************

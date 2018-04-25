@@ -2,22 +2,22 @@
 method: GET
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 48790
+src_port: 49262
 dst_port: 9102
 path: /v1/catalog/vnfpkgs/89b084d6-66fe-4070-aab7-9b3334937fb1/EB_vnfd_vNewC10_69_76.yaml?VNFMID=222&NFVOID=1
 body:
 
 headers:
 {'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
-************************
-************response data *************
+*****************end***************
+************response data ************
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
 src_port: 9102
-dst_port: 48790
+dst_port: 49262
 headers:
-{'date': 'Wed, 25 Apr 2018 05:43:13 GMT', 'content-length': '11309', 'content-type': 'application/octet-stream', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
-raw data:
+{'date': 'Wed, 25 Apr 2018 08:46:49 GMT', 'content-length': '11309', 'content-type': 'application/octet-stream', 'http/1.0 200 ok': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+response data:
 tosca_definitions_version: tosca_simple_profile_for_nfv_1_0_0
 
 description: EB_vNewC10
@@ -324,50 +324,50 @@ topology_template:
             cpu_policy:   # dedicated
             realtime_cpu_num: 0  
             numa_nodes:
-************************
+*****************end***************
 ************receive request *************
 method: POST
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 48796
+src_port: 49268
 dst_port: 9102
 path: /v1/vnfs/eventnotification
 body:
-{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "nfvoid": "1", "eventdescription": "INSTANTIATE--VNF--vLIXIAOLI-4--[2cad95a2-f788-42f9-89f3-4af84a4e7295]", "eventtype": 1, "jobid": "job_20180425134333", "vnfmid": "222"}
+{"vnfinstanceid": "5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef", "nfvoid": "1", "eventdescription": "INSTANTIATE--VNF--vLIXIAOLI-11--[5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef]", "eventtype": 1, "jobid": "job_20180425164709", "vnfmid": "222"}
 headers:
-{'content-length': '229', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
-************************
+{'content-length': '230', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+*****************end***************
 ************receive request *************
 method: PUT
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 48798
+src_port: 49270
 dst_port: 9102
 path: /v1/resource/grant
 body:
-{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "vnfmid": "222", "nfvoid": "1", "vmlist": [{"vmnumber": 1, "vmflavor": "lixiaoli-ScaleVdu"}, {"vmnumber": 1, "vmflavor": "lixiaoli-NewC10"}], "operationright": 0}
+{"vnfinstanceid": "5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef", "vnfmid": "222", "nfvoid": "1", "vmlist": [{"vmnumber": 1, "vmflavor": "lixiaoli-ScaleVdu"}, {"vmnumber": 1, "vmflavor": "lixiaoli-NewC10"}], "operationright": 0}
 headers:
 {'content-length': '220', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
-************************
-************response data *************
+*****************end***************
+************response data ************
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
 src_port: 9102
-dst_port: 48798
+dst_port: 49270
 headers:
-{'date': 'Wed, 25 Apr 2018 05:43:34 GMT', 'content-length': '33', 'content-type': 'application/json', 'http/1.0 201 created': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
-raw data:
+{'date': 'Wed, 25 Apr 2018 08:47:10 GMT', 'content-length': '33', 'content-type': 'application/json', 'http/1.0 201 created': '', 'server': 'Werkzeug/0.9.1 Python/2.7.5'}
+response data:
 {"tenant": "admin", "vimid": "1"}
-************************
+*****************end***************
 ************receive request *************
 method: POST
 src_ip: 10.1.13.105
 dst_ip: 10.1.13.105
-src_port: 48802
+src_port: 49274
 dst_port: 9102
 path: /v1/vnfs/eventnotification
 body:
-{"vnfinstanceid": "2cad95a2-f788-42f9-89f3-4af84a4e7295", "nfvoid": "1", "eventdescription": "ROLLBACK--VNF--vLIXIAOLI-4--[2cad95a2-f788-42f9-89f3-4af84a4e7295]", "eventtype": 5, "jobid": "job_20180425134334", "vnfmid": "222"}
+{"vnfinstanceid": "5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef", "nfvoid": "1", "eventdescription": "ROLLBACK--VNF--vLIXIAOLI-11--[5e5f9e6d-29f7-4b30-b3c6-edc85d8200ef]", "eventtype": 5, "jobid": "job_20180425164710", "vnfmid": "222"}
 headers:
-{'content-length': '226', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
-************************
+{'content-length': '227', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'accept': 'application/json', 'user-agent': 'python-requests/2.11.1', 'host': '10.1.13.105:9102', 'content-type': 'application/json;charset=utf-8'}
+*****************end***************
